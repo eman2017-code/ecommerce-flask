@@ -89,4 +89,16 @@ def login():
     except models.DoesNotExist:
         return jsonify(data={}, status={"code": 401, "message": "Email or password incorrect"}), 401
 
+# log out route
+@users.route('/logout', methods=["GET"])
+def logout():
+    # get the email of the user
+    email = model_to_dict(current_user)['email']
+
+    # log out the user
+    logout_user()
+
+    # return success
+    return jsonify(data={}, status={"code": 200, "message": "Successfully logged out {}".format(email)})
+
 
