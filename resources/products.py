@@ -20,8 +20,8 @@ def create_product():
 	payload = request.get_json()
 
 	# the user must be an admin to create a product
-	if current_user.admin == "True":
-		product = models.Product.create(name=payload["name"], price=payload["price"], description=paylod["description"], owner=current_user.id)
+	if current_user.admin == True:
+		product = models.Product.create(name=payload["name"], price=payload["price"], description=payload["description"], owner=current_user.id)
 
 		# change the model to dictionary
 		product_dict = model_to_dict(product)
