@@ -39,7 +39,7 @@ def list_products():
 	try:
 		# select all of the data from the Product model and store it into the product_instances varaible 
 		product_instances = models.Product.select()
-		
+
 		# loop through all the products currently in the database
 		product_instances_dict = [model_to_dict(products) for products in product_instances]
 
@@ -49,6 +49,31 @@ def list_products():
 	# if the data cannot be processed
 	except:
 		return jsonify(data={}, status={"code": 500, "message": "the data cannot be processed"})
+
+# delete product route
+@products.route('/<id>', methods=["Delete"])
+
+# the admin must be logged in
+@login_required
+
+def delete_product(id):
+
+	# get the product by its id
+	product_to_delete = models.Product.get_by_id(id)
+
+	# check to see that the product that is being deleted belongs to the admin
+	if product_to_delete.owner.id != current_user.id:
+		return jsonify(data={}, status={"code": 403, "message": "you can only delete your own products"})
+
+	# if it matches, delete the product
+	else:
+		# variable to show the name of the product
+		product_name = product_to_delete.name
+
+		product_to_delete.delete_instance()
+		return jsonify(data="product successfully deleted", status={"code": 200, "message": "{} deleted successfully".format(product_name)})
+	
+		
 
 
 
