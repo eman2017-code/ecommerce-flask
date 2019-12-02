@@ -32,6 +32,24 @@ def create_product():
 		# if the user is not an admin, they will be thrown an error
 		return jsonify(data={}, status={"code": 403, "message": "You cannot create product! You are not an admin"})
 
+# list all products route
+@products.route('/', methods=["GET"])
+# the user does not have to be logged in to see all the products that are offered
+def list_products():
+	try:
+		# select all of the data from the Product model and store it into the product_instances varaible 
+		product_instances = models.Product.select()
+		
+		# loop through all the products currently in the database
+		product_instances_dict = [model_to_dict(products) for products in product_instances]
+
+		# return success
+		return jsonify(data=product_instances_dict, status={"code": 200, "message": "Sucess"}), 200
+
+	# if the data cannot be processed
+	except:
+		return jsonify(data={}, status={"code": 500, "message": "the data cannot be processed"})
+
 
 
 
