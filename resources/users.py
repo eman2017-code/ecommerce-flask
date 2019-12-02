@@ -34,7 +34,16 @@ def register():
 
         # generate the password
         payload['password'] = generate_password_hash(payload['password'])
+        print('payload')
+        print(payload)
 
+        # check if payload admin: "false" --> set to boolean false
+        if payload['admin'] == 'False':
+            payload['admin'] = False
+        else:
+            # otherwise it is true
+            payload['admin'] = True
+            
         # create the user
         user = models.User.create(**payload)
 
@@ -43,6 +52,9 @@ def register():
 
         # convert into dictionary
         user_dict = model_to_dict(user)
+
+        print('user_dict')
+        print(user_dict)
 
         # delete password
         del user_dict['password']
