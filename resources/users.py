@@ -72,6 +72,9 @@ def login():
             del user_dict['password']
 
             # return success
+            print('user_dict')
+            # print(user_dict['admin'])
+            print(user_dict)
             return jsonify(data=user_dict, status={"code": 200, "message": "successfully logged in {}".format(user_dict['first_name'])}), 200
         
         # otherwise return error

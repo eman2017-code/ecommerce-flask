@@ -21,6 +21,18 @@ login_manager = LoginManager()
 
 login_manager.init_app(app)
 
+@login_manager.user_loader
+def load_user(user_id):
+    try:
+        return models.User.get(models.User.id == user_id)
+    except models.DoesNotExist:
+        return None
+
+# method to ensure that the user is logged in
+@login_manager.unauthorized_handler
+def unauthorized():
+  return jsonify(data={'error': 'User not logged in.'}, status={'code': 401,'message': "You must be logged in to access that resource."}), 401
+
 CORS(users, origins=['http://localhost:3000'], supports_credentials=True) 
 CORS(products, origins=['http://localhost:3000'], supports_credentials=True)
 CORS(carts, origins=['http://localhost:3000'], supports_credentials=True)
