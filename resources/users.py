@@ -12,3 +12,42 @@ from playhouse.shortcuts import model_to_dict
 
 # blueprint
 users = Blueprint('users', 'users')
+
+# register route
+@users.route('/register', methods=["POST"])
+def register():
+    # grab the user
+    payload = request.get_json()
+
+    # make the email lowercase
+    payload['email'].lower()
+
+    try:
+        # query for users email
+        models.User.get(models.User.email == payload['email'])
+
+        # return error if they come up
+        return jsonify(data={}, status={"code": 401, "messsage": "A user with that email already exists"}), 401
+    
+    # if they didnt show up in the database via email they entered
+    except models.DoesNotExist:
+
+        # generate the password
+        payload['password'] = generate_password_hash(payload['password'])
+
+        # create the user
+        user = models.User.create(**payload)
+
+        # log them in
+        login_user(user)
+
+        # convert into dictionary
+        user_dict = model_to_dict(user)
+
+        # delete password
+        del user_dict['password']
+
+        # return succes
+        return jsonify(data=user_dict, status={"code": 201, "message": "succesfully registered {}".format(user_dict['first_name'])}), 201
+
+
