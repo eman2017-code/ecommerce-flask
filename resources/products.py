@@ -74,6 +74,39 @@ def delete_product(id):
 		return jsonify(data="product successfully deleted", status={"code": 200, "message": "{} deleted successfully".format(product_name)})
 	
 		
+# update product route
+@products.route('/<id>', methods=["PUT"])
+
+# the admin must be logged in
+@login_required
+
+def update_product(id):
+	payload = request.get_json()
+
+	# get the product by its id
+	product = models.Product.get_by_id(id)
+
+	# only if the product belongs to the admin
+	if (product.owner.id == current_user.id):
+		product.name = payload['name'] if 'name' in payload else None
+		product.price = payload['price'] if 'price' in payload else None
+		product.description = payload['description'] if 'description' in payload else None
+
+		# save the changes made to the product
+		product.save()
+
+		product_dict = model_to_dict(product)
+		# dont show the password of the user
+		product_dict['owner'].pop('password')
+
+		# return success
+		return jsonify(data=product_dict, status={"code": 200, "message": "Product successfully updated"}), 200
+
+	# if the product does not belong to the user
+	else:
+		# return error
+		return jsonify(data={}, status={"code": 403, "message": "You can only edit items that you posted"}), 403
+
 
 
 
