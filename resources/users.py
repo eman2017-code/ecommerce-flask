@@ -34,8 +34,6 @@ def register():
 
         # generate the password
         payload['password'] = generate_password_hash(payload['password'])
-        print('payload')
-        print(payload)
 
         # check if payload admin: "false" --> set to boolean false
         if payload['admin'] == 'False':
@@ -52,9 +50,6 @@ def register():
 
         # convert into dictionary
         user_dict = model_to_dict(user)
-
-        print('user_dict')
-        print(user_dict)
 
         # delete password
         del user_dict['password']
@@ -84,9 +79,6 @@ def login():
             del user_dict['password']
 
             # return success
-            print('user_dict')
-            # print(user_dict['admin'])
-            print(user_dict)
             return jsonify(data=user_dict, status={"code": 200, "message": "successfully logged in {}".format(user_dict['first_name'])}), 200
         
         # otherwise return error
@@ -95,7 +87,6 @@ def login():
         
     # if they dont exist
     except models.DoesNotExist:
-        print('they dont exist in the database')
         return jsonify(data={}, status={"code": 401, "message": "Email or password incorrect"}), 401
 
 
