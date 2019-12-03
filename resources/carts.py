@@ -25,17 +25,22 @@ def create_cart(product_id):
     # return success
     return jsonify(data=cart_dict, status={"code": 201, "message": "You successfully created your cart"})
 
-# # list all items that are in a user's cart
-# @carts.route('/<cart_id>', methods=["GET"])
-# # the user must be logged in
-# @login_required
-# def list_items_in_cart(cart_id):
-#     # select the cart that matches the current users id
-#     this_users_cart_instances = models.Cart.select().where(models.Cart.user_id == current_user.id)
-#     # I need to loop through all the products that are in the cart so that the user can see them
-#     this_users_carts_dicts = [model_to_dict(item) for item in this_users_cart_instances]
-#     print('this_users_carts_dicts')
-#     print(this_users_carts_dicts)
+# route to list all the items that are in a cart
+@carts.route('/', methods=["GET"])
+# the user must be logged in
+@login_required
+def list_products_in_cart():
+    try:
+        # find the cart that belongs to the user
+        this_users_cart_instances = models.Cart.select().where(models.Cart.user_id == current_user.id)
 
-#     return jsonify(data=this_users_carts_dicts, status={"code": 200, "message": "Success"}), 200
+        this_users_cart_dicts = [model_to_dict(cart) for cart in this_users_cart_instances]
+
+        return jsonify(data=this_users_cart_dicts, status={"code": 200, "message": "Success getting resources"})
+
+    except models.DoesNotExist:
+        return jsonify(data={}, status={"code": 401, "message": "there was an error getting the resources"})
+    
+
+    
     
