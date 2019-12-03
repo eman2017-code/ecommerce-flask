@@ -8,3 +8,19 @@ from playhouse.shortcuts import model_to_dict
 
 # blueprint
 carts = Blueprint('carts', 'carts')
+
+# # create cart route
+# # the cart gets created when the user adds an item
+# @carts.route('/', methods=["POST"])
+
+# # the user must be logged in to add things to their cart
+# @login_required
+
+# def create_cart():
+#     # get the payload
+#     payload = request.get_json()
+
+#     # create the cart
+#     cart = models.Cart.create(quantity=payload['quantity'], product_id=payload['product_id'], paid=payload['paid'], user_id=payload['user_id'])
+
+#     print(model_to_dict(cart), "model_to_of_created_product")
