@@ -11,21 +11,31 @@ carts = Blueprint('carts', 'carts')
 
 # create cart route
 # the cart gets created when the user adds an item
-@carts.route('/', methods=["POST"])
-
+@carts.route('/<product_id>', methods=["POST"])
 # the user must be logged in to add things to their cart
 @login_required
-
-def create_cart():
-
+# this id is the product id
+def create_cart(product_id):
     # get the payload
     payload = request.get_json()
-
     # create the cart
-    cart = models.Cart.create(quantity=payload['quantity'], product_id=payload['product_id'], paid=payload['paid'], user_id=payload['user_id'])
-
-    print(model_to_dict(cart), "model_to_of_created_product")
+    cart = models.Cart.create(quantity=payload['quantity'], paid=payload['paid'], product_id=product_id, user_id=current_user.id)
+    # make this into a dictionary
     cart_dict = model_to_dict(cart)
-
     # return success
     return jsonify(data=cart_dict, status={"code": 201, "message": "You successfully created your cart"})
+
+# # list all items that are in a user's cart
+# @carts.route('/<cart_id>', methods=["GET"])
+# # the user must be logged in
+# @login_required
+# def list_items_in_cart(cart_id):
+#     # select the cart that matches the current users id
+#     this_users_cart_instances = models.Cart.select().where(models.Cart.user_id == current_user.id)
+#     # I need to loop through all the products that are in the cart so that the user can see them
+#     this_users_carts_dicts = [model_to_dict(item) for item in this_users_cart_instances]
+#     print('this_users_carts_dicts')
+#     print(this_users_carts_dicts)
+
+#     return jsonify(data=this_users_carts_dicts, status={"code": 200, "message": "Success"}), 200
+    

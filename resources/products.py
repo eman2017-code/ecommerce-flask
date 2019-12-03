@@ -25,6 +25,9 @@ def create_product():
 
 		# change the model to dictionary
 		product_dict = model_to_dict(product)
+
+		# dont show the password of the user
+		product_dict['owner'].pop('password')
 		
 		# return success
 		return jsonify(data=product_dict, status={"code": 201, "message": "successfully created your product"}), 201
@@ -42,6 +45,9 @@ def list_products():
 
 		# loop through all the products currently in the database
 		product_instances_dict = [model_to_dict(products) for products in product_instances]
+
+		# dont show the password of the user
+		# product_instances_dict['owner'].pop('password')
 
 		# return success
 		return jsonify(data=product_instances_dict, status={"code": 200, "message": "Sucess"}), 200
