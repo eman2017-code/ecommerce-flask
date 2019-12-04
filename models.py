@@ -1,6 +1,7 @@
 from peewee import *
 
 from flask_login import UserMixin
+from enum import Enum
 
 DATABASE = SqliteDatabase('users.sqlite')
 
