@@ -9,7 +9,6 @@ from playhouse.shortcuts import model_to_dict
 # blueprint
 products = Blueprint('products', 'products')
 
-
 # create product route
 @products.route('/', methods=["POST"])
 # the user must be logged in
