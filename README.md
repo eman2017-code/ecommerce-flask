@@ -46,7 +46,8 @@ _e-commerce site_
    - search for products --> POST /search (user and admin can both access this)
 
 5. Checkout
-   - checkout and pay for list of items --> GET /checkout
+   - checkout and pay for list of items --> POST /checkout
+   - get total price of items --> GET /totalPrice
 
 ## Models:
 

@@ -9,12 +9,9 @@ from playhouse.shortcuts import model_to_dict
 # blueprint
 cartItems = Blueprint('cartItems', 'cartItems')
 
-# # checkout route
-# @cartItems.route('/checkout', methods=["GET"])
-# # the user must be logged in
-# @login_required
-# def checkout_cart():
-#     # loop through all of the prices
-    
-#     # return success
-#     # return jsonify(data="it works", status={"code": 200, "message": "blah blah blah"})
+# checkout route
+@cartItems.route('/totalPrice', methods=["GET"])
+# the user must be logged in
+@login_required
+def get_total_price_of_items():
+    # loop through all of the prices that in the users cart and them add them up
