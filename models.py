@@ -21,11 +21,9 @@ class Product(Model):
     price = IntegerField()
     description = CharField()
     category = CharField()
-    
 
     class Meta:
         database = DATABASE
-
 
 class Cart(Model):
     user_id = ForeignKeyField(User, backref='users')
