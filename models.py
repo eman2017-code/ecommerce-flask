@@ -1,7 +1,6 @@
 from peewee import *
 
 from flask_login import UserMixin
-from enum import Enum
 
 DATABASE = SqliteDatabase('users.sqlite')
 
@@ -21,9 +20,12 @@ class Product(Model):
     name = CharField(unique = True)
     price = IntegerField()
     description = CharField()
+    category = CharField()
+    
 
     class Meta:
         database = DATABASE
+
 
 class Cart(Model):
     user_id = ForeignKeyField(User, backref='users')
