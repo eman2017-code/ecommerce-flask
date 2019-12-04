@@ -30,16 +30,30 @@ def create_cart(product_id):
 # the user must be logged in
 @login_required
 def list_products_in_cart():
+
     try:
         # find the cart that belongs to the user
         this_users_cart_instances = models.Cart.select().where(models.Cart.user_id == current_user.id)
 
         this_users_cart_dicts = [model_to_dict(cart) for cart in this_users_cart_instances]
 
+        # there has to be a second method to map over it in pythong
+        # def remove_password(cart):
+        #     cart.pop('password')
+
+        # this will ultimately bet the product name and price
+        # this_users_cart_dicts_product_names = list(map(remove_password, this_users_cart_dicts))
+
+        # print('this_users_cart_dicts_product_names')
+        # print(this_users_cart_dicts_product_names)
+
+
+
         return jsonify(data=this_users_cart_dicts, status={"code": 200, "message": "Success getting resources"})
 
     except models.DoesNotExist:
         return jsonify(data={}, status={"code": 401, "message": "there was an error getting the resources"})
+
     
 
     
