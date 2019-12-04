@@ -101,20 +101,8 @@ def show_one_product(id):
 	return jsonify(data=product_dict, status={"code": 200, "message": "Successfully showed product"}), 200
 
 
-# add product to cart
-@products.route('/<cart_id>', methods=["POST"])
-# the user must be logged in to add items to their cart
-@login_required
-def add_product_to_cart(cart_id):
-    # get the payload
-    payload = request.get_json()
-    # add item to the cart
-    # cart = models.Cart.create(quantity=payload['quantity'], paid=payload['paid'], product_id=product_id, user_id=current_user.id)
+# add product to a cart
 
-    # make this into a dictionary
-    # cart_dict = model_to_dict(cart)
-    # return success
-    return jsonify(data=cart_dict, status={"code": 201, "message": "You successfully added item to your cart"})
 
 
 
