@@ -17,6 +17,7 @@ class User(UserMixin, Model):
 
 class Product(Model):
     owner = ForeignKeyField(User, backref="users")
+    picture = CharField()
     name = CharField()
     price = IntegerField(default=0)
     description = CharField()
