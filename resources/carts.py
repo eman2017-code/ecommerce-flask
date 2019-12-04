@@ -25,34 +25,18 @@ def create_cart(product_id):
     # return success
     return jsonify(data=cart_dict, status={"code": 201, "message": "You successfully created your cart"})
 
-# route to list all the items that are in a cart
-@carts.route('/', methods=["GET"])
-# the user must be logged in
+# list items in specific cart
+@carts.route('/<user_id>', methods=["GET"])
+# the user must be logged in to to see all of their itmes that they have in their cart
 @login_required
-def list_products_in_cart():
+def list_items_in_cart(user_id):
+    # get all the cart intances that have the current users id
+    this_users_cart_instances = models.Cart.select().where(models.Cart.user_id == current_user.id)
+    # loop to show all the cart items
+    this_users_carts_dicts = [model_to_dict(cart) for cart in this_users_cart_instances]
 
-    try:
-        # find the cart that belongs to the user
-        this_users_cart_instances = models.Cart.select().where(models.Cart.user_id == current_user.id)
-
-        this_users_cart_dicts = [model_to_dict(cart) for cart in this_users_cart_instances]
-
-        # there has to be a second method to map over it in pythong
-        # def remove_password(cart):
-        #     cart.pop('password')
-
-        # this will ultimately bet the product name and price
-        # this_users_cart_dicts_product_names = list(map(remove_password, this_users_cart_dicts))
-
-        # print('this_users_cart_dicts_product_names')
-        # print(this_users_cart_dicts_product_names)
-
-
-
-        return jsonify(data=this_users_cart_dicts, status={"code": 200, "message": "Success getting resources"})
-
-    except models.DoesNotExist:
-        return jsonify(data={}, status={"code": 401, "message": "there was an error getting the resources"})
+    # return success
+    return jsonify(data=this_users_carts_dicts, status={"code": 200, "message": "Here are the carts"})
 
     
 
