@@ -101,7 +101,25 @@ def show_one_product(id):
 	return jsonify(data=product_dict, status={"code": 200, "message": "Successfully showed product"}), 200
 
 
-# add product to a cart
+# search for products
+@products.route('/find', methods=["POST"])
+# the user does not have to be logged in to search for products
+def find_products():
+	# get the data from the client
+	data = request.get_json()
+
+	# query all the products by the search string
+	results = Product.select().where(Product.name.contains(data['value']) | Product.price.contains(data['value']) | Product.description.contains(data['value']))
+
+	# iterate over all the searches -- convert to dictionaries
+	results_list = []
+	for result in results:
+		result_dict = model_to_dict(result, backref=True, recurse=True)
+		del result_dict['password']
+		results_list.append(result_dict)
+
+	# return success
+	return jsonify(data=results_list, status={"code": 200, "message": "Successfully got the search results"})
 
 
 
