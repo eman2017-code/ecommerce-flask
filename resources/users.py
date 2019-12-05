@@ -8,6 +8,7 @@ from flask_bcrypt import generate_password_hash, check_password_hash
 
 from flask_login import login_user, current_user, logout_user, login_required
 
+# this is to get the request from checkboxes
 from flask import Flask, request
 
 from playhouse.shortcuts import model_to_dict
