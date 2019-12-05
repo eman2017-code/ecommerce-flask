@@ -8,6 +8,8 @@ from flask_bcrypt import generate_password_hash, check_password_hash
 
 from flask_login import login_user, current_user, logout_user, login_required
 
+from flask import Flask, request
+
 from playhouse.shortcuts import model_to_dict
 
 # blueprint
@@ -29,12 +31,19 @@ def register():
     except models.DoesNotExist:
         # generate the password
         payload['password'] = generate_password_hash(payload['password'])
-        # check if payload admin: "false" --> set to boolean false
-        if payload['admin'] == 'False':
-            payload['admin'] = False
+
+        # # check if payload admin: "false" --> set to boolean false
+        # if payload['admin'] == 'False':
+        #     # payload['admin'] = False
+        #     print()
+        # else:
+        #     # otherwise it is true
+        #     payload['admin'] = True     
+        if request.method == 'POST':
+            print(request.form.getlist('admin'))
         else:
-            # otherwise it is true
-            payload['admin'] = True       
+            print('nope not working')
+
         # create the user
         user = models.User.create(**payload)
         # log them in
