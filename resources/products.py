@@ -21,6 +21,7 @@ def create_product():
 			name=payload["name"], 
 			price=payload["price"], 
 			description=payload["description"], 
+			picture=payload["picture"], 
 			category=payload["category"], 
 			owner=current_user.id)
 		# change the model to dictionary
