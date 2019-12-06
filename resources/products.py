@@ -126,15 +126,34 @@ def find_products():
 	# return success
 	return jsonify(data=results_list, status={"code": 200, "message": "Successfully got the search results"})
 
+# # show items admin has created
+# @products.route('/<user_id>', methods=["GET"])
+# # the user must be logged in to see the products that they created
+# @login_required
+# def show_user_created_products(user_id):
+# 	try:
+# 		this_admins_products_instances = models.Product.select().where(models.Product.owner.id == current_user.id)
+# 		# loop through all the products that a user has
+# 		this_admins_products_dicts = [model_to_dict(product) for product in this_admins_products_instances ]
+# 		return jsonify(data=this_admins_products_dicts, status={"code": 200, "message": "Success showing courses"}), 200
+# 	# if the model does not exist
+#     except models.DoesNotExist:
+#     	return jsonify(data={}, status={"code": 401, "message": "Error getting the resources"}), 401
+
 # show items admin has created
 @products.route('/<user_id>', methods=["GET"])
-# the user must be logged in to see the products that they created
+# the admin must be logged in to see their created products
 @login_required
-def show_user_created_products(user_id):
-	this_admins_products_instances = models.Product.select().where(models.Product.owner.id == current_user.id)
-	# loop through all the products that a user has
-	this_admins_products_dicts = [model_to_dict(product) for product in this_admins_products_instances ]
-	return jsonify(data=this_admins_products_dicts, status={"code": 200, "message": "Success showing courses"})
+def show_admin_created_products(user_id):
+	try:
+		this_admins_products_instances = models.Product.select().where(models.Product.owner.id == current_user.id)
+		# loop through and make into dictionaries
+	 	this_admins_products_dicts = [model_to_dict(product) for product in this_admins_products_instances]
+	 	# return success
+	 	return jsonify(data=this_admins_products_dicts, status={"code": 200, "message": "Success showing all products"}), 200
+	 except models.DoesNotExist:
+	 	# return error
+	 	return jsonify(datat={}, status={"code": 401, "message": "Error getting products"}), 401
 	
 
 
