@@ -31,3 +31,14 @@ def get_total_price_of_items(cart_id):
         # return the error
         return jsonify(data={}, status={"code": 401, "messsage": "Error getting this resource"}), 401
 
+
+# # show items admin has created
+# @cartItems.route('/<user_id>', methods=["GET"])
+# # the user must be logged in to see the products that they created
+# @login_required
+# def show_user_created_products(user_id):
+# 	this_admins_products_instances = models.Product.select().where(models.Product.owner.id == current_user.id)
+# 	# loop through all the products that a user has
+# 	this_admins_products_dicts = [model_to_dict(product) for product in this_admins_products_instances ]
+# 	return jsonify(data=this_admins_products_dicts, status={"code": 200, "message": "Success showing courses"})
+

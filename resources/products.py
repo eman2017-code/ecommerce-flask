@@ -92,18 +92,18 @@ def update_product(id):
 		# return error
 		return jsonify(data={}, status={"code": 403, "message": "You can only edit items that you posted"}), 403
 
-# product show route
-@products.route('/<id>', methods=["GET"])
-# the user does not have to be logged in
-def show_one_product(id):
-	# get the product
-	product = models.Product.get_by_id(id)
-	# make into a dictionary
-	product_dict = model_to_dict(product)
-	# dont show the owner of the product's password
-	product_dict['owner'].pop('password')
-	# return success
-	return jsonify(data=product_dict, status={"code": 200, "message": "Successfully showed product"}), 200
+# # product show route
+# @products.route('/<product_id>', methods=["GET"])
+# # the user does not have to be logged in
+# def show_one_product(product_id):
+# 	# get the product
+# 	product = models.Product.get_by_id(product_id)
+# 	# make into a dictionary
+# 	product_dict = model_to_dict(product)
+# 	# dont show the owner of the product's password
+# 	product_dict['owner'].pop('password')
+# 	# return success
+# 	return jsonify(data=product_dict, status={"code": 200, "message": "Successfully showed product"}), 200
 
 
 # search for products
@@ -125,6 +125,17 @@ def find_products():
 
 	# return success
 	return jsonify(data=results_list, status={"code": 200, "message": "Successfully got the search results"})
+
+# show items admin has created
+@products.route('/<user_id>', methods=["GET"])
+# the user must be logged in to see the products that they created
+@login_required
+def show_user_created_products(user_id):
+	this_admins_products_instances = models.Product.select().where(models.Product.owner.id == current_user.id)
+	# loop through all the products that a user has
+	this_admins_products_dicts = [model_to_dict(product) for product in this_admins_products_instances ]
+	return jsonify(data=this_admins_products_dicts, status={"code": 200, "message": "Success showing courses"})
+	
 
 
 
