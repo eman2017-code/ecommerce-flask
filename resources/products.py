@@ -92,19 +92,6 @@ def update_product(id):
 		# return error
 		return jsonify(data={}, status={"code": 403, "message": "You can only edit items that you posted"}), 403
 
-# product show route
-@products.route('/<product_id>', methods=["GET"])
-# the user does not have to be logged in
-def show_one_product(product_id):
-	# get the product
-	product = models.Product.get_by_id(product_id)
-	# make into a dictionary
-	product_dict = model_to_dict(product)
-	# dont show the owner of the product's password
-	product_dict['owner'].pop('password')
-	# return success
-	return jsonify(data=product_dict, status={"code": 200, "message": "Successfully showed product"}), 200
-
 
 # search for products
 @products.route('/find', methods=["POST"])
