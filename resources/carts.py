@@ -18,10 +18,12 @@ carts = Blueprint('carts', 'carts')
 def create_cart(product_id):
     # get the payload
     payload = request.get_json()
+    print('payload:', payload)
     # create the cart
-    cart = models.Cart.create(quantity=payload['quantity'], paid=payload['paid'], product_id=product_id, user_id=current_user.id)
+    cart = models.Cart.create(product_id=product_id, user_id=current_user.id)
     # make this into a dictionary
     cart_dict = model_to_dict(cart)
+    print('card_dict:', cart_dict)
     # return success
     return jsonify(data=cart_dict, status={"code": 201, "message": "You successfully created your cart"})
 
@@ -38,15 +40,6 @@ def list_items_in_cart(user_id):
     # return success
     return jsonify(data=this_users_carts_dicts, status={"code": 200, "message": "Here are the carts"})
 
-# # show items admin has created
-# @carts.route('/my_items/<user_id>', methods=["GET"])
-# # the user must be logged in to see the products that they created
-# @login_required
-# def show_user_created_products(user_id):
-# 	this_admins_products_instances = models.Product.select().where(models.Product.owner.id == current_user.id)
-# 	# loop through all the products that a user has
-# 	this_admins_products_dicts = [model_to_dict(product) for product in this_admins_products_instances ]
-# 	return jsonify(data=this_admins_products_dicts, status={"code": 200, "message": "Success showing courses"})
     
 
     

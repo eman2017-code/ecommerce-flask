@@ -28,9 +28,9 @@ class Product(Model):
 
 class Cart(Model):
     user_id = ForeignKeyField(User, backref='users')
-    quantity = IntegerField()
+    quantity = IntegerField(null = True)
     product_id = ForeignKeyField(Product, backref='products')
-    paid = BooleanField()
+    paid = BooleanField(null = True)
 
     class Meta:
         database = DATABASE
