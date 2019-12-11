@@ -34,10 +34,10 @@ def load_user(user_id):
 def unauthorized():
   return jsonify(data={'error': 'User not logged in.'}, status={'code': 401,'message': "You must be logged in to access that resource."}), 401
 
-CORS(users, origins=['http://localhost:3000'], supports_credentials=True) 
-CORS(products, origins=['http://localhost:3000'], supports_credentials=True)
-CORS(carts, origins=['http://localhost:3000'], supports_credentials=True)
-CORS(cartItems, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(users, origins=['http://localhost:3000', 'https://react-ecommerce-capstone.herokuapp.com'], supports_credentials=True) 
+CORS(products, origins=['http://localhost:3000', 'https://react-ecommerce-capstone.herokuapp.com'], supports_credentials=True)
+CORS(carts, origins=['http://localhost:3000', 'https://react-ecommerce-capstone.herokuapp.com'], supports_credentials=True)
+CORS(cartItems, origins=['http://localhost:3000', 'https://react-ecommerce-capstone.herokuapp.com'], supports_credentials=True)
 
 app.register_blueprint(users, url_prefix='/api/v1/users')
 app.register_blueprint(products, url_prefix='/api/v1/products')
