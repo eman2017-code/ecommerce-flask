@@ -101,13 +101,13 @@ def find_products():
 	data = request.get_json()
 
 	# query all the products by the search string
-	results = Product.select().where(Product.name.contains(data['value']) | Product.price.contains(data['value']) | Product.description.contains(data['value']))
+	results = models.Product.select().where(models.Product.name.contains(data['value']) | models.Product.price.contains(data['value']) | models.Product.category.contains(data['value']) | models.Product.description.contains(data['value']))
 
 	# iterate over all the searches -- convert to dictionaries
 	results_list = []
 	for result in results:
-		result_dict = model_to_dict(result, backref=True, recurse=True)
-		del result_dict['password']
+		result_dict = model_to_dict(result, backrefs=True, recurse=True)
+		# del result_dict['password']
 		results_list.append(result_dict)
 
 	# return success
