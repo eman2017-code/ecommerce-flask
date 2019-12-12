@@ -101,7 +101,7 @@ def find_products():
 	data = request.get_json()
 
 	# query all the products by the search string
-	results = models.Product.select().where(models.Product.name.contains(data['value'])) #or models.Product.price.contains(data['value']) or models.Product.category.contains(data['value']) or models.Product.description.contains(data['value']))
+	results = models.Product.select().where(models.Product.name.contains(data['value']) or models.Product.price.contains(data['value']) or models.Product.category.contains(data['value']) or models.Product.description.contains(data['value']))
 
 	# iterate over all the searches -- convert to dictionaries
 	results_list = []

@@ -4,7 +4,7 @@ from peewee import *
 from flask_login import UserMixin
 from playhouse.db_url import connect
 
-DATABASE = SqliteDatabase('users.sqlite')
+# DATABASE = SqliteDatabase('users.sqlite')
 
 if 'ON_HEROKU' in os.environ: # later we will manually add this env var 
                               # in heroku so we can write this code
