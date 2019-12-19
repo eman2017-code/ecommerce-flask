@@ -32,14 +32,7 @@ def register():
     except models.DoesNotExist:
         # generate the password
         payload['password'] = generate_password_hash(payload['password'])
-
-        # # check if payload admin: "false" --> set to boolean false
-        # if payload['admin'] == 'False':
-        #     # payload['admin'] = False
-        #     print()
-        # else:
-        #     # otherwise it is true
-        #     payload['admin'] = True     
+   
         if request.method == 'POST':
             print(request.form.getlist('admin'))
         else:
